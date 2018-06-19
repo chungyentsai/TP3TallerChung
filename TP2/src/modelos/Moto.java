@@ -3,21 +3,29 @@ package modelos;
 
 
 public class Moto extends Vehiculo{
-	private String encendidoElectronico;
+	private boolean encendidoElectronico;
 	
 	 public String toString(){
-	        return super.toString();
+	        return super.toString()+" y "+encendidoElectronico;
 	    }	
-	public String getContenido() {
+
+	
+	public boolean isEncendidoElectronico() {
 		return encendidoElectronico;
 	}
-	public void setContenido(String contenido) {
-		this.encendidoElectronico = contenido;
+
+
+	public void setEncendidoElectronico(boolean encendidoElectronico) {
+		this.encendidoElectronico = encendidoElectronico;
 	}
+
+
+	public Moto(String vin, Motor motor, boolean encendidoElectronico) {
+		super(vin, motor);
+		this.encendidoElectronico = encendidoElectronico;
+	}
+
+
 	
-	public Moto (String vin, Motor motor, String contenido){
-		 super(vin, motor);
-	     this.setContenido(contenido);
-	 }
 	
 }

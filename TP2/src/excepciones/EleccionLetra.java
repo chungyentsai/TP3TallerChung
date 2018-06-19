@@ -2,17 +2,17 @@ package excepciones;
 
 public class EleccionLetra {
 	
-	int opcionIngresada;
-	
+	String letraIngresada;
 	public EleccionLetra(){
 		
 	}
 	
-	public EleccionLetra(int opcionIngresada) throws EleccionLetraException{
-		if(opcionIngresada < 0 || opcionIngresada > 2){
-			throw new EleccionLetraException("Error");
+	public EleccionLetra(String letraIngresada) throws EleccionLetraException{
+		if(letraIngresada.equalsIgnoreCase("Y") || letraIngresada.equalsIgnoreCase("N")){
+			throw new EleccionLetraException("Error de eleccion");
+			
 		}	else{
-			this.opcionIngresada = opcionIngresada;
+			this.letraIngresada = letraIngresada;
 		}
 	}
 	

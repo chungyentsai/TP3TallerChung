@@ -3,48 +3,80 @@ import estructuras.Nodo;
 import excepciones.LinkedListEmptyException;
 
 public class Pila implements StackActions{   
-    Nodo peek;
+    
+	Nodo top;
     int size;   
     
     
-    public Pila(){
-        peek = null;
+    public Nodo getTop() {
+		return top;
+	}
+	public void setTop(Nodo top) {
+		this.top = top;
+	}
+	public Pila(){
+        top = null;
         size = 0;
     }  
     public int size() {
         return size;
     } 
     public boolean isEmpty() {
-        return (peek == null);
+        return top == null;
     }
     public void push(Object o) {
-        Nodo n = new Nodo(o, peek);
-        peek = n;
+        Nodo n = new Nodo(o, top);
+        if (isEmpty()){
+        	top = n;
+        }else{
+        	top.setSiguiente(top);
+        	top=n;
+        }
         size ++;
     } 
+    
     public Object pop() throws LinkedListEmptyException {
-        if (isEmpty())
-            throw new LinkedListEmptyException();
-            Object temporal = peek.getDato();
-            peek= peek.getSiguiente();
+        if (isEmpty()){
+        	throw new LinkedListEmptyException();
+        }else{
+        	Object o = top.getDato();
+            top= top.getSiguiente();
             size --;
-            return temporal; 
+            return o; 
+        } 
     }
     
-    public Object peek() throws LinkedListEmptyException {
-        if (isEmpty())
-            throw new LinkedListEmptyException();
+    public Object cima() throws LinkedListEmptyException {
+    	Nodo aux = new Nodo();
+    	aux = top;
+        if (isEmpty()){
+        	throw new LinkedListEmptyException();
+        }else{
+        	return aux;
+        }
+    }
+    
+    public void arriba() throws LinkedListEmptyException{
+    	Nodo aux = new Nodo();
+    	aux = top;
+        if (isEmpty()){
+        	throw new LinkedListEmptyException();
+        }else{
+        	System.out.println(aux.getDato());
+        }
+    }
+    
+    public void print(){
+    	Nodo aux = new Nodo();
+    	aux= top;
+    	if(isEmpty())
+            System.out.println("La cola esta vacia!");
+        else {
+        	while(aux != null){
+        		System.out.println(aux.getDato());
+        		aux = aux.getSiguiente();
+        	}
+            }
+        }
 
-       return peek.getDato();
-    }
-    
-    public void Mostrar(){
-    	try {
-			peek();
-		} catch (LinkedListEmptyException e) {
-			e.printStackTrace();
-		}
-    }
-    
-    
 }

@@ -8,10 +8,14 @@ public interface StackActions {
 
 	public boolean isEmpty();
 
-	public void push(Object objectToPush);
+	public void push(Object o);
+	
+	public void print();
+	
+	public void arriba() throws LinkedListEmptyException;
 
 	public Object pop() throws LinkedListEmptyException;   
 
-	public Object peek() throws LinkedListEmptyException;
+	public Object cima() throws LinkedListEmptyException;
 
 }

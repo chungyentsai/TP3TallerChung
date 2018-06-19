@@ -31,5 +31,10 @@ public class Nodo {
 		this.siguiente = siguiente;
 	}
 
+	@Override
+	public String toString() {
+		return dato +" y el siguiente a ser atentido es: " + siguiente;
+	}
+
     
 }
