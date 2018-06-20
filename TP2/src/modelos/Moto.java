@@ -6,7 +6,7 @@ public class Moto extends Vehiculo{
 	private boolean encendidoElectronico;
 	
 	 public String toString(){
-	        return super.toString()+" y "+encendidoElectronico;
+	        return super.toString()+" y "+encendidoElectronico+" posee encendido electronico.";
 	    }	
 
 	

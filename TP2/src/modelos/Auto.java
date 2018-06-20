@@ -12,7 +12,7 @@ public class Auto extends Vehiculo{
 	}
 	@Override
 	public String toString(){
-	        return super.toString()+" y "+airbags;
+	        return super.toString()+" y "+airbags+ " contiene airbags.";
 	    }	
 
 	public Auto(String vin, Motor motor, boolean airbags) {

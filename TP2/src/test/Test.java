@@ -19,6 +19,9 @@ import excepciones.ErrorSeleccionNum;
 import excepciones.ErrorSeleccionNumException;
 import excepciones.EsLetra;
 import excepciones.EsLetraException;
+import excepciones.EsNumeroDecimal;
+import excepciones.EsNumeroEntero;
+import excepciones.EsNumeroException;
 import excepciones.EleccionLetra;
 import excepciones.EleccionLetraException;
 import excepciones.LinkedListEmptyException;
@@ -32,17 +35,27 @@ public class Test {
 		Scanner scanner = new Scanner(System.in);
 		int opcionIngresada=-1;
 		int numero;
-		int i;
+		int i=0;
 		String letraIngresada = " ";
+		boolean repetir = true;
 		char letra = ' ';
 		int numeroSeleccionado;
 		String vin;
+		float decimal = 0;
 		float motorLitros;
 		int motorCilindradas;
+		int contador=0;
+		
 		EleccionNumero ele;
         ErrorSeleccionNum esn;        
         EleccionLetra eleLetra;
         EsLetra esLetra;
+        EsNumeroEntero esNumEntero;
+        EsNumeroDecimal esNumDecimal;
+        
+        
+        int rangoMax;
+		int rangoMin;
         
         int []menu2= new int[6];       
         int []menuTaller= new int[3];
@@ -53,19 +66,15 @@ public class Test {
 		Vector vectorMoto = new Vector(1,1);
 		Motor motor = new Motor();
 		
-		int rangoMax;
-		int rangoMin;
-		
-		
 		
 		
 		Nodo nodoReparacion = new Nodo();
-		Nodo nodomoto = new Nodo();
-		
 		Cola colaReparacion = new Cola();
 
 		Nodo nodoRepararDisco = new Nodo();
 		Pila repararDisco = new Pila();
+		SoporteMecanico soporteRepararDisco = new SoporteMecanico();
+		String accion= " ";
 		
 		Vector vectorRepararDisco = new Vector(1,1);
 		vectorRepararDisco.addElement("Quitar bulones");
@@ -75,11 +84,6 @@ public class Test {
 		vectorRepararDisco.addElement("Reemplazar disco de freno");
 
 		
-		SoporteMecanico SoporterepararDisco = new SoporteMecanico();
-		
-	
-		
-		String accion= " ";
 		
 		System.out.println("Bienvenido");	
 		do{
@@ -114,8 +118,7 @@ public class Test {
 						System.out.println("5.Listar auto");
 						System.out.println("6.Listar moto");
 						System.out.println("0.Volver");
-						//opcionIngresada=sc.nextInt();   
-			            //sc.nextLine();
+
 						try{
 					        opcionIngresada = scanner.nextInt();	
 					    }catch (java.util.InputMismatchException e2){
@@ -128,83 +131,144 @@ public class Test {
 					    }catch (ErrorSeleccionNumException e){
 							System.out.println("Error al elegir numero :"+e.getClass().getName());
 					    }
-						
-			            
-			            
 
-			            
 			            switch (opcionIngresada) {
 						case 1:
 							System.out.println("Ingrese el vin del auto");
 							vin = sc.nextLine();
-							System.out.println("Ingrese y/n de acuerdo si posee airbags el auto ");
-							letraIngresada = sc.nextLine();
-							boolean airbags=true;
 							
+							repetir = true;
+							while(repetir){
+							try{
+								System.out.println("Ingrese y/n de acuerdo si posee airbags el auto");
+								letraIngresada=sc.nextLine();
+								eleLetra = new EleccionLetra(letraIngresada);
+								repetir=false;
+							}catch (EleccionLetraException e){
+								System.out.println("Se ingreso mal");	
+							}
+							}
+							
+							boolean airbags = true;
+							if (letraIngresada.equalsIgnoreCase("y")){
+								airbags=true;
+							}if(letraIngresada.equalsIgnoreCase("n")){
+								airbags=false;
+							}
 							
 							System.out.println("Ingrese los datos del motor");
-							System.out.println("De cuantos capacidades en litros es?");
-							motorLitros = (float)sc.nextFloat();
+							
+							repetir = true;
+							while(repetir){
+							try{
+								System.out.println("De cuantos capacidades en litros es?");
+								decimal = (float)scanner.nextFloat();
+								esNumDecimal = new EsNumeroDecimal(decimal);
+								repetir = false;
+				            }catch (EsNumeroException e){
+				            	System.out.println("Error: "+e.getClass().getName());
+				            }catch (InputMismatchException e2){
+				            	System.out.println("Error: "+e2.getClass().getName());
+				            	decimal = 0;
+				            	scanner = new Scanner(System.in);
+				            }
+							}
+							
+							motorLitros=decimal;
 							motor.setMotorLitros(motorLitros);
-							System.out.println("De cuantas cilindradas es?");
-							motorCilindradas = sc.nextInt();
-							sc.nextLine();
+							
+							repetir = true;
+							while(repetir){
+								try{
+									System.out.println("De cuantas cilindradas es?");
+									i = scanner.nextInt();
+									esNumEntero = new EsNumeroEntero(i);
+									repetir = false;
+					            }catch (InputMismatchException e2){
+					            	System.out.println("Error: "+e2.getClass().getName());
+					            	i = 0;
+					            	scanner = new Scanner(System.in);
+					            }catch (EsNumeroException e){
+					            	System.out.println("Error: "+e.getClass().getName());
+					            }
+								}
+							
+							motorCilindradas = i;
 							motor.setMotorCilindradas(motorCilindradas);
 
 							Auto nuevoAuto = new Auto(vin, motor, airbags);
 							vectorAuto.addElement(nuevoAuto.toString());
 							System.out.println("se ha agregado el automovil con el vin:"+vin+" con un "+motor+" y "+airbags+" contiene airbags");
 							break;
-						case 2:
+						case 2:	
 							System.out.println("\nIngrese el vin de la moto");
 							vin = sc.nextLine();
-							System.out.println("Ingrese y/n de acuerdo si posee encendido electronico la moto ");
+
+							repetir = true;
+							while(repetir){
+							try{
+								System.out.println("Ingrese y/n de acuerdo si posee encendido electronico la moto");
+								letraIngresada=sc.nextLine();
+								eleLetra = new EleccionLetra(letraIngresada);
+								repetir=false;
+							}catch (EleccionLetraException e){
+								System.out.println("Se ingreso mal");	
+							}
+							}
 							
-							boolean seIngresoLetra=false;
-							
-								
-									if (!seIngresoLetra){
-									try{
-										letra = sc.next().charAt(0);
-										esLetra = new EsLetra(letra);
-										letraIngresada = String.valueOf(letra);
-										eleLetra = new EleccionLetra(letraIngresada);
-										seIngresoLetra=true;
-									}catch (EsLetraException e1){
-						            	System.out.println("Ingrese letras");
-						            	//letraIngresada = sc.nextLine();
-						            	//scanner = new Scanner(System.in);
-						            }catch (EleccionLetraException e){
-						            	System.out.println("Debe elegir entre y/n, de acuerdo si posee encendido electronico");
-						            	System.out.println("Error: "+e.getClass().getName() +": debe ingresar y/n");   
-						            	//letraIngresada = sc.nextLine();
-						            	//scanner = new Scanner(System.in);
-						            }catch (NullPointerException e2){
-						            	System.out.println("Ingrese una letra y/n");
-						            }
-								}
-									
-							
-								boolean encendidoElectronico = true;
-								if (letraIngresada.equalsIgnoreCase("y")){
-									encendidoElectronico=true;
-								}if(letraIngresada.equalsIgnoreCase("n")){
-									encendidoElectronico=false;
-								}
+							boolean encendidoElectronico = true;
+							if (letraIngresada.equalsIgnoreCase("y")){
+								encendidoElectronico=true;
+							}if(letraIngresada.equalsIgnoreCase("n")){
+								encendidoElectronico=false;
+							}
 								
 							System.out.println("Ingrese los datos del motor");
-							System.out.println("De cuantos capacidades en litros es?");
-							motorLitros = (float)sc.nextFloat();
+							
+							repetir = true;
+							while(repetir){
+							try{
+								System.out.println("De cuantos capacidades en litros es?");
+								decimal = (float)scanner.nextFloat();
+								//sc.nextLine();
+								esNumDecimal = new EsNumeroDecimal(decimal);
+								repetir = false;
+				            }catch (EsNumeroException e){
+				            	System.out.println("Error: "+e.getClass().getName());
+				            }catch (InputMismatchException e2){
+				            	System.out.println("Error: "+e2.getClass().getName());
+				            	decimal = 0;
+				            	scanner = new Scanner(System.in);
+				            }
+							}
+							
+							motorLitros=decimal;
 							motor.setMotorLitros(motorLitros);
-							System.out.println("De cuantas cilindradas es?");
-							motorCilindradas = sc.nextInt();
-							sc.nextLine();
+							
+							repetir = true;
+							while(repetir){
+								try{
+									System.out.println("De cuantas cilindradas es?");
+									i = scanner.nextInt();
+									esNumEntero = new EsNumeroEntero(i);
+									repetir = false;
+					            }catch (InputMismatchException e2){
+					            	System.out.println("Error: "+e2.getClass().getName());
+					            	i = 0;
+					            	scanner = new Scanner(System.in);
+					            }catch (EsNumeroException e){
+					            	System.out.println("Error: "+e.getClass().getName());
+					            }
+								}
+							
+							motorCilindradas = i;
 							motor.setMotorCilindradas(motorCilindradas);
 							
 							Moto nuevoMoto = new Moto(vin, motor, encendidoElectronico);
 							vectorMoto.addElement(nuevoMoto.toString());;
 							System.out.println("se ha agregado la motocicleta con el vin:"+vin+" con "+motor+" y "+encendidoElectronico+" tiene encendido electronico");
 							break;
+							
 						case 3:
 							rangoMax=(vectorAuto.size()-1);
 							rangoMin=0;
@@ -231,7 +295,7 @@ public class Test {
 							try{
 								esn = new ErrorSeleccionNum(numeroSeleccionado, rangoMax, rangoMin);
 							}catch (ErrorSeleccionNumException e){
-								System.out.println("Error al elegir numero, auto no encontrado.");
+								System.out.println("Error al elegir numero, auto no encontrado, se volvera al menu anterior");
 							}
 							
 							for (i=0; i<vectorAuto.size(); i++)
@@ -264,7 +328,7 @@ public class Test {
 							try{
 								esn = new ErrorSeleccionNum(numeroSeleccionado, rangoMax, rangoMin);
 							}catch (ErrorSeleccionNumException e){
-								System.out.println("Error al elegir numero");
+								System.out.println("Error al elegir numero, moto no encontrado, se volvera al menu anterior");
 							}
 							
 							for (i=0; i<vectorMoto.size(); i++)
@@ -367,15 +431,24 @@ public class Test {
 											System.out.println(i+": "+vectorAuto.elementAt(i).toString());
 										}
 									}
-									System.out.println("Seleccione el numero del auto para agregar a la cola");
-									numeroSeleccionado=sc.nextInt();	
-									sc.nextLine();
-									try{
-										esn = new ErrorSeleccionNum(numeroSeleccionado, rangoMax, rangoMin);
-									}catch (ErrorSeleccionNumException e){
-										System.out.println("Error al elegir numero");
+									
+									repetir = true;
+									while(repetir){
+										try{
+											System.out.println("Seleccione el numero del auto para agregar a la cola");
+											numeroSeleccionado = scanner.nextInt();	
+									        esn = new ErrorSeleccionNum(numeroSeleccionado, rangoMax, rangoMin);
+									        repetir=false;
+									    }catch (java.util.InputMismatchException e2){
+									    	System.out.println("Error: "+e2.getClass().getName());
+									    	numeroSeleccionado = -1;
+									        scanner = new Scanner(System.in);
+									    }catch (ErrorSeleccionNumException e){
+											System.out.println("Error al elegir numero");
+										}
 									}
 									
+
 									for (i=0; i<vectorAuto.size(); i++){
 								        if (i == numeroSeleccionado){
 								        	nodoReparacion.setDato(vectorAuto.elementAt(i));
@@ -397,13 +470,21 @@ public class Test {
 											System.out.println(i+": "+vectorMoto.elementAt(i).toString());
 										}
 									}
-									System.out.println("Seleccione el numero de la moto para agregar a la cola");
-									numeroSeleccionado=sc.nextInt();
-									sc.nextLine();
-									try{
-										esn = new ErrorSeleccionNum(numeroSeleccionado, rangoMax, rangoMin);
-									}catch (ErrorSeleccionNumException e){
-										System.out.println("Error al elegir numero");
+									
+									repetir = true;
+									while(repetir){
+										try{
+											System.out.println("Seleccione el numero de la moto para agregar a la cola");
+											numeroSeleccionado = scanner.nextInt();	
+									        esn = new ErrorSeleccionNum(numeroSeleccionado, rangoMax, rangoMin);
+									        repetir=false;
+									    }catch (java.util.InputMismatchException e2){
+									    	System.out.println("Error: "+e2.getClass().getName());
+									    	numeroSeleccionado = -1;
+									        scanner = new Scanner(System.in);
+									    }catch (ErrorSeleccionNumException e){
+											System.out.println("Error al elegir numero");
+										}
 									}
 									
 									for (i=0; i<vectorMoto.size(); i++){
@@ -425,7 +506,7 @@ public class Test {
 			            	colaReparacion.print();
 			            	System.out.println("\nSe mostrara el primer vehiculo en la cola y el siguiente");
 			            	try {
-								System.out.println(colaReparacion.first().toString());
+								System.out.println(colaReparacion.first());
 							} catch (EmptyQueueException e) {
 									e.printStackTrace();
 							}
@@ -460,42 +541,53 @@ public class Test {
 					            case 1:	
 					            	
 					            	for(i=0; i<vectorRepararDisco.size();i++){
-					            		System.out.println("el proximo paso sera"+vectorRepararDisco.elementAt(i));
-					            		System.out.println("Desea hacer algo antes?");
+					            		System.out.println("el proximo paso sera: "+vectorRepararDisco.elementAt(i));
 					            		
+					            		repetir = true;
+										while(repetir){
+										try{
+											System.out.println("Desea hacer algo antes? y/n");
+											letraIngresada=sc.nextLine();
+											eleLetra = new EleccionLetra(letraIngresada);
+											repetir=false;
+										}catch (EleccionLetraException e){
+											System.out.println("Se ingreso mal");	
+										}
+										}
+										
+										//boolean choose = true;
+										if (letraIngresada.equalsIgnoreCase("y")){
+											//choose=true;
+											System.out.println("Escriba a continuacion lo que hara antes");
+											accion = sc.nextLine();
+											vectorRepararDisco.insertElementAt(accion, i);
+											
+											soporteRepararDisco.setAccion(accion);
+											nodoRepararDisco.setDato(soporteRepararDisco.getAccion());
+							        		repararDisco.push(nodoRepararDisco.getDato());
+										}if(letraIngresada.equalsIgnoreCase("n")){
+											//choose=false;
 					            		nodoRepararDisco.setDato(vectorRepararDisco.elementAt(i));
 						        		repararDisco.push(nodoRepararDisco.getDato());
+						        		
 					        		}
-					            	repararDisco.arriba();
-					        		vectorRepararDisco.addElement(SoporterepararDisco.toString());
-					        		
-					        		
-					        		
-					        		
-					        		
-					            	
+										
+										System.out.println("Acaba de hacer: " +repararDisco.cima());
+										
+										contador++;
+										System.out.println(contador);
+					            	}	
+
+					            	System.out.println("Se ha hecho: "+vectorRepararDisco.toString()+" para reparar los discos de freno");
+
+					            	System.out.println("a continuacion tendra que armar todo de vuelta");
 					            	
 					            	
 					            	for (i=0; i<vectorRepararDisco.size(); i++){
-					            		
-					            		nodoRepararDisco.setDato(vectorRepararDisco.elementAt(i));
-					            		
-					            		repararDisco.push(nodoRepararDisco.getDato());
-					            		
-					            		repararDisco.cima();
-					            		
-					            		SoporteMecanico soporte = new SoporteMecanico();
-					            		System.out.println("Hara algo extra despues de esta accion?");
-					            		accion = sc.nextLine();
-					            		soporte.setAccion(accion);
-					            		vectorRepararDisco.setElementAt(accion, i+1);;
-					            		
-					            		
+					            		System.out.println("Usted debe: "+repararDisco.pop());
+					            		System.out.println("Presione enter para seguir");
+					            		sc.nextLine();
 					            	}
-					            	nodoReparacion.setDato(vectorAuto.elementAt(i));
-						        	colaReparacion.enqueue(nodoReparacion.getDato());
-					            	nodoRepararDisco.setDato("levantar la tapa");
-					            	repararDisco.push(nodoRepararDisco.getDato());
 
 						            break;	
 					            case 0:
@@ -512,14 +604,14 @@ public class Test {
 					}while(opcionIngresada != 0);
 					break;
 					
-				case 3:
+				case 0:
 					System.out.println("\nHa seleccionado terminar");
 					break;
 				default:
 					break;
 			}    
             
-		}while (opcionIngresada != 2);
+		}while (opcionIngresada != 0);
 	}
     }
     

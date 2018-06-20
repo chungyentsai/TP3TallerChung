@@ -9,10 +9,9 @@ public class EleccionLetra {
 	
 	public EleccionLetra(String letraIngresada) throws EleccionLetraException{
 		if(letraIngresada.equalsIgnoreCase("Y") || letraIngresada.equalsIgnoreCase("N")){
-			throw new EleccionLetraException("Error de eleccion");
-			
-		}	else{
 			this.letraIngresada = letraIngresada;
+		}	else{
+			throw new EleccionLetraException("Error de eleccion");
 		}
 	}
 	

@@ -32,39 +32,30 @@ public class Pila implements StackActions{
         	top.setSiguiente(top);
         	top=n;
         }
-        size ++;
+        size++;
     } 
     
     public Object pop() throws LinkedListEmptyException {
+    	Object o;
         if (isEmpty()){
         	throw new LinkedListEmptyException();
         }else{
-        	Object o = top.getDato();
-            top= top.getSiguiente();
-            size --;
-            return o; 
+        	o = top.getDato();
+        	top= top.getSiguiente();
+        	size--;
+            return o ; 
         } 
     }
     
     public Object cima() throws LinkedListEmptyException {
-    	Nodo aux = new Nodo();
-    	aux = top;
+    	Object o = top.getDato();
         if (isEmpty()){
         	throw new LinkedListEmptyException();
         }else{
-        	return aux;
+        	return o;
         }
     }
-    
-    public void arriba() throws LinkedListEmptyException{
-    	Nodo aux = new Nodo();
-    	aux = top;
-        if (isEmpty()){
-        	throw new LinkedListEmptyException();
-        }else{
-        	System.out.println(aux.getDato());
-        }
-    }
+
     
     public void print(){
     	Nodo aux = new Nodo();

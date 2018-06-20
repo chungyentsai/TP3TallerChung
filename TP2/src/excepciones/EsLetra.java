@@ -1,6 +1,7 @@
 package excepciones;
 
 public class EsLetra {
+	
 	char letra;
 	
 	public EsLetra(){

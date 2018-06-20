@@ -11,8 +11,6 @@ public interface StackActions {
 	public void push(Object o);
 	
 	public void print();
-	
-	public void arriba() throws LinkedListEmptyException;
 
 	public Object pop() throws LinkedListEmptyException;   
 
