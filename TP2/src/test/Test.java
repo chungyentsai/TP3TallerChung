@@ -12,6 +12,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Vector;
 
+
 import excepciones.EleccionNumero;
 import excepciones.EleccionNumeroException;
 import excepciones.EmptyQueueException;
@@ -89,7 +90,7 @@ public class Test {
 		do{
 			System.out.println("1.Operar");
 			System.out.println("2.Taller");
-            System.out.println("0.Salir");
+            System.out.println("9.Salir");
 
             try{
             	opcionIngresada = scanner.nextInt();
@@ -362,6 +363,7 @@ public class Test {
 							System.out.println("Volviendo al menu principal");
 						 default:
 						}
+			            //break;
 					}while (opcionIngresada != 0);
 					break;
 					
@@ -498,8 +500,9 @@ public class Test {
 				            	case 0: 
 				            		System.out.println("Volviendo al taller");
 				            		default:
-								    	}
-			            	}while (opcionIngresada != 0);
+				            	break;
+			            	}
+			            }while (opcionIngresada != 0);	
 			            	break;
 			            case 2:
 			            	System.out.println("\nProcedemos a mostrar la cola completa");
@@ -507,6 +510,7 @@ public class Test {
 			            	System.out.println("\nSe mostrara el primer vehiculo en la cola y el siguiente");
 			            	try {
 								System.out.println(colaReparacion.first());
+								System.out.println(colaReparacion.segundo());
 							} catch (EmptyQueueException e) {
 									e.printStackTrace();
 							}
@@ -561,30 +565,28 @@ public class Test {
 											System.out.println("Escriba a continuacion lo que hara antes");
 											accion = sc.nextLine();
 											vectorRepararDisco.insertElementAt(accion, i);
-											
 											soporteRepararDisco.setAccion(accion);
 											nodoRepararDisco.setDato(soporteRepararDisco.getAccion());
 							        		repararDisco.push(nodoRepararDisco.getDato());
 										}if(letraIngresada.equalsIgnoreCase("n")){
 											//choose=false;
-					            		nodoRepararDisco.setDato(vectorRepararDisco.elementAt(i));
+					            		nodoRepararDisco.setDato(vectorRepararDisco.elementAt(i).toString());
 						        		repararDisco.push(nodoRepararDisco.getDato());
 						        		
 					        		}
 										
 										System.out.println("Acaba de hacer: " +repararDisco.cima());
 										
-										contador++;
-										System.out.println(contador);
+									
 					            	}	
 
 					            	System.out.println("Se ha hecho: "+vectorRepararDisco.toString()+" para reparar los discos de freno");
 
-					            	System.out.println("a continuacion tendra que armar todo de vuelta");
-					            	
+					            	System.out.println("a continuacion tendra que armar todo de vuelta, el sistema le indicara como hacer.");
 					            	
 					            	for (i=0; i<vectorRepararDisco.size(); i++){
-					            		System.out.println("Usted debe: "+repararDisco.pop());
+					            		System.out.println("\nUsted debe: ");
+					            		System.out.println(repararDisco.pop());
 					            		System.out.println("Presione enter para seguir");
 					            		sc.nextLine();
 					            	}
@@ -594,7 +596,6 @@ public class Test {
 					            	System.out.println("Volviendo al Taller");
 					            	break;
 					            }
-			            		break;
 			            	}while (opcionIngresada != 0);
 			            	break;
 			            case 0:
@@ -603,7 +604,6 @@ public class Test {
 			            }
 					}while(opcionIngresada != 0);
 					break;
-					
 				case 0:
 					System.out.println("\nHa seleccionado terminar");
 					break;
@@ -611,7 +611,7 @@ public class Test {
 					break;
 			}    
             
-		}while (opcionIngresada != 0);
+		}while (opcionIngresada != 9);
 	}
     }
     

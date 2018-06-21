@@ -11,6 +11,8 @@ public interface QueueActions {
 	void enqueue(Object o);
 	
 	void print();
+	
+	Object segundo() throws EmptyQueueException;
 
 	Object first() throws EmptyQueueException;
 

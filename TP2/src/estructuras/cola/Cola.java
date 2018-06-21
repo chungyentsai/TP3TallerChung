@@ -52,6 +52,15 @@ public Object first() throws EmptyQueueException{
 	
 }
 
+public Object segundo() throws EmptyQueueException{
+	if (isEmpty()){
+		throw new EmptyQueueException();
+	}else{
+		return front.getSiguiente().getDato();
+	}
+	
+}
+
 public Object dequeue() throws EmptyQueueException{
 	if (isEmpty()){
 		throw new EmptyQueueException();

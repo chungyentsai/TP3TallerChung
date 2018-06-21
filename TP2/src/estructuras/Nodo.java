@@ -33,10 +33,10 @@ public class Nodo {
 
 	@Override
 	public String toString() {
-		return dato +" siguiente: "+ siguiente;
+		return "" + dato +" ";
 	}
 
-	//@Override
+	
 	//public String toString() {
 	//	return dato +" y el siguiente a ser atentido es: " + siguiente;
 	//}
